@@ -108,8 +108,16 @@ class CategoryServicesTest {
     }
 
     @Test
-    @DisplayName("Test not found category")
-    void notFound(){
+    @DisplayName("Test delete category")
+    void delete(){
+        Category entity = mock.mockEntity(1);
+        when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
+        service.delete(entity.getId());
+    }
+
+    @Test
+    @DisplayName("Test not found category findById")
+    void notFoundFindById(){
         Exception ex = assertThrows(NotFoundException.class, () -> service.findById(-1L));
         String expectedMessage = "Category is not found!";
         String actualMessage = ex.getMessage();
@@ -118,8 +126,29 @@ class CategoryServicesTest {
     }
 
     @Test
+    @DisplayName("Test not found category update")
+    void notFoundUpdate(){
+        Exception ex = assertThrows(NotFoundException.class, () -> service.findById(-1L));
+        String expectedMessage = "Category is not found!";
+        String actualMessage = ex.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+
+    @Test
     @DisplayName("Test not null create category")
-    void notNull(){
+    void notNullCreate(){
+        Exception ex = assertThrows(NotNullException.class, () -> service.create(null));
+        String expectedMessage = "Data category is null!";
+        String actualMessage = ex.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+    @Test
+    @DisplayName("Test not null update category")
+    void notNullUpdate(){
         Exception ex = assertThrows(NotNullException.class, () -> service.create(null));
         String expectedMessage = "Data category is null!";
         String actualMessage = ex.getMessage();
