@@ -24,6 +24,19 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<ExceptionResponse> handleAppException(
+            AppException ex, WebRequest req
+    ) {
+
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                req.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, ex.getStatus());
+    }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ExceptionResponse> handleNotFoundException(Exception ex, WebRequest req){
