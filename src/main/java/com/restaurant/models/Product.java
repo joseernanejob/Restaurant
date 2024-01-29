@@ -1,15 +1,17 @@
 package com.restaurant.models;
 
+import com.restaurant.mappers.Mapper;
+import com.restaurant.vos.ProductVO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+import java.util.Objects;
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
+@EqualsAndHashCode
 @Entity
 @Table(name = "products")
 public class Product {
@@ -26,4 +28,11 @@ public class Product {
 
     @ManyToOne()
     private Category category;
+
+
+    public void updateProduct(ProductVO data) {
+        this.name = data.getName();
+        this.description = data.getDescription();
+        this.category = Mapper.parseObject(data.getCategory(), Category.class);
+    }
 }
