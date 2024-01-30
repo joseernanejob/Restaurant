@@ -1,6 +1,7 @@
 package com.restaurant.controllers;
 
 import com.restaurant.services.ProductServices;
+import com.restaurant.vos.RequestProductVO;
 import com.restaurant.vos.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,7 @@ public class ProductController {
     ProductServices service;
 
     @PostMapping
-    public ResponseEntity<ProductVO> create(@RequestBody ProductVO data){
+    public ResponseEntity<ProductVO> create(@RequestBody RequestProductVO data){
         return new ResponseEntity<>(service.create(data), HttpStatus.CREATED);
     }
 
@@ -38,7 +39,7 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<ProductVO> update(@RequestBody ProductVO data){
+    public ResponseEntity<ProductVO> update(@RequestBody RequestProductVO data){
         return new ResponseEntity<>(service.update(data), HttpStatus.OK);
     }
 
