@@ -8,9 +8,8 @@ import com.restaurant.models.Category;
 import com.restaurant.models.Product;
 import com.restaurant.repostories.CategoryRepository;
 import com.restaurant.repostories.ProductRepository;
-import com.restaurant.vos.CategoryVO;
+import com.restaurant.vos.RequestProductVO;
 import com.restaurant.vos.ProductVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +21,21 @@ public class ProductServices {
 
     ProductRepository repository;
 
+    CategoryRepository categoryRepository;
 
-    public ProductServices(ProductRepository repository) {
+
+    public ProductServices(ProductRepository repository, CategoryRepository categoryRepository) {
         this.repository = repository;
+        this.categoryRepository = categoryRepository;
     }
 
-    public ProductVO create(ProductVO data){
+    public ProductVO create(RequestProductVO data){
         if(data ==null) throw new NotNullException("Data product is null!");
+        Category category = categoryRepository.findById(data.getCategoryId())
+                .orElseThrow(() -> new NotFoundException("Category is not found!"));
 
         Product product = Mapper.parseObject(data, Product.class);
+        product.setCategory(category);
         return Mapper.parseObject(repository.save(product), ProductVO.class);
     }
 
@@ -48,14 +53,21 @@ public class ProductServices {
         return Mapper.parseObject(product, ProductVO.class);
     }
 
-    public ProductVO update(ProductVO data){
+    public ProductVO update(RequestProductVO data){
         if(data ==null) throw new NotNullException("Data product is null!");
         Product product = repository.findById(data.getId()).orElseThrow(() -> new NotFoundException("Product is not found!"));
         if (!Objects.equals(product.getName(), data.getName())){
-        boolean exists = repository.existsProductByName(data.getName());
-        if (exists) throw  new AppException("Product name already registered! ", HttpStatus.BAD_REQUEST);
+            boolean exists = repository.existsProductByName(data.getName());
+            if (exists) throw  new AppException("Product name already registered! ", HttpStatus.BAD_REQUEST);
         }
         product.updateProduct(data);
+
+        if(!Objects.equals(product.getCategory().getId(), data.getCategoryId())){
+            Category category = categoryRepository.findById(data.getCategoryId())
+                    .orElseThrow(() -> new NotFoundException("Category is not found!"));
+            product.setCategory(category);
+        }
+
         return Mapper.parseObject(repository.save(product), ProductVO.class);
     }
 
