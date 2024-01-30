@@ -3,15 +3,12 @@ package com.restaurant.unitTests.services;
 import com.restaurant.exceptions.NotFoundException;
 import com.restaurant.exceptions.NotNullException;
 import com.restaurant.mappers.Mapper;
-import com.restaurant.mocks.MockCategory;
 import com.restaurant.mocks.MockProduct;
-import com.restaurant.models.Category;
 import com.restaurant.models.Product;
 import com.restaurant.repostories.CategoryRepository;
 import com.restaurant.repostories.ProductRepository;
-import com.restaurant.services.CategoryServices;
 import com.restaurant.services.ProductServices;
-import com.restaurant.vos.CategoryVO;
+import com.restaurant.vos.RequestProductVO;
 import com.restaurant.vos.ProductVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,6 +33,9 @@ class ProductServicesTest {
     @Mock
     ProductRepository repository;
 
+    @Mock
+    CategoryRepository categoryRepository;
+
     @BeforeEach
     void setUp() {
         mock = new MockProduct();
@@ -46,8 +46,10 @@ class ProductServicesTest {
     @DisplayName("Test create new product")
     void create() {
         Product entity = mock.mockEntity(1);
-        ProductVO productVO = Mapper.parseObject(entity, ProductVO.class);
+        RequestProductVO productVO = Mapper.parseObject(entity, RequestProductVO.class);
+        productVO.setCategoryId(entity.getCategory().getId());
 
+        when(categoryRepository.findById(productVO.getCategoryId())).thenReturn(Optional.ofNullable(entity.getCategory()));
         when(repository.save(entity)).thenReturn(entity);
         ProductVO result = service.create(productVO);
 
@@ -117,8 +119,10 @@ class ProductServicesTest {
     @DisplayName("Test update product")
     void update() {
         Product entity = mock.mockEntity(1);
-        ProductVO productVO = Mapper.parseObject(entity, ProductVO.class);
+        RequestProductVO productVO = Mapper.parseObject(entity, RequestProductVO.class);
+        productVO.setCategoryId(entity.getCategory().getId());
 
+        when(categoryRepository.findById(productVO.getCategoryId())).thenReturn(Optional.ofNullable(entity.getCategory()));
         when(repository.findById(productVO.getId())).thenReturn(Optional.of(entity));
         when(repository.save(entity)).thenReturn(entity);
         ProductVO result = service.update(productVO);
@@ -162,7 +166,7 @@ class ProductServicesTest {
     @DisplayName("Test not found product update")
     void notFoundUpdate(){
         Product entity = mock.mockEntity(1);
-        ProductVO productVO = Mapper.parseObject(entity, ProductVO.class);
+        RequestProductVO productVO = Mapper.parseObject(entity, RequestProductVO.class);
         productVO.setId(-1L);
         Exception ex = assertThrows(NotFoundException.class, () -> service.update(productVO));
         String expectedMessage = "Product is not found!";
@@ -191,5 +195,40 @@ class ProductServicesTest {
 
         assertEquals(expectedMessage, actualMessage);
     }
+
+
+    @Test
+    @DisplayName("Test not found category product update")
+    void notFoundCategoryProductUpdate(){
+        Product entity = mock.mockEntity(1);
+        RequestProductVO productVO = Mapper.parseObject(entity, RequestProductVO.class);
+        productVO.setCategoryId(-1L);
+
+        when(repository.findById(productVO.getId())).thenReturn(Optional.of(entity));
+        Exception ex = assertThrows(NotFoundException.class, () -> service.update(productVO));
+        String expectedMessage = "Category is not found!";
+        String actualMessage = ex.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+
+
+    @Test
+    @DisplayName("Test not found category product create")
+    void notFoundCategoryProductCreate(){
+        Product entity = mock.mockEntity(1);
+        RequestProductVO productVO = Mapper.parseObject(entity, RequestProductVO.class);
+        productVO.setCategoryId(-1L);
+
+        when(repository.findById(productVO.getId())).thenReturn(Optional.of(entity));
+        Exception ex = assertThrows(NotFoundException.class, () -> service.create(productVO));
+        String expectedMessage = "Category is not found!";
+        String actualMessage = ex.getMessage();
+
+        assertEquals(expectedMessage, actualMessage);
+    }
+
+
 
 }
