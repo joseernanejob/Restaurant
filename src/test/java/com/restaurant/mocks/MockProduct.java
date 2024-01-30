@@ -3,6 +3,7 @@ package com.restaurant.mocks;
 import com.restaurant.models.Category;
 import com.restaurant.models.Product;
 import com.restaurant.vos.CategoryVO;
+import com.restaurant.vos.RequestProductVO;
 import com.restaurant.vos.ProductVO;
 
 import java.util.ArrayList;
@@ -54,12 +55,28 @@ public class MockProduct {
         );
     }
 
-    public List<ProductVO> mockListVO(){
-        List<ProductVO> list = new ArrayList<>();
+    public RequestProductVO createMockVO(Integer number){
+        CategoryVO category = new CategoryVO(
+                Long.valueOf(((number % 2) == 0)? 2 : 1),
+                ((number % 2) == 0) ? "Sobremesa" : "Bebida"
+        );
+
+        return new RequestProductVO(
+                number.longValue(),
+                STR."Produto\{number}",
+                STR."Descrição produto \{number}",
+                category.getId()
+        );
+    }
+
+    public List<RequestProductVO> mockListVO(){
+        List<RequestProductVO> list = new ArrayList<>();
         for (int i = 0; i < 14; i++) {
-            list.add(mockVO(i));
+            list.add(createMockVO(i));
         }
 
         return list;
     }
+
+
 }
