@@ -1,11 +1,9 @@
 package com.restaurant.models;
 
 import com.restaurant.mappers.Mapper;
-import com.restaurant.vos.ProductVO;
+import com.restaurant.vos.RequestProductVO;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -30,9 +28,8 @@ public class Product {
     private Category category;
 
 
-    public void updateProduct(ProductVO data) {
+    public void updateProduct(RequestProductVO data) {
         this.name = data.getName();
         this.description = data.getDescription();
-        this.category = Mapper.parseObject(data.getCategory(), Category.class);
     }
 }
