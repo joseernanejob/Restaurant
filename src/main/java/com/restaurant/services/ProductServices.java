@@ -44,7 +44,8 @@ public class ProductServices {
     }
 
     public List<ProductVO> findAllByCategory(Long id){
-
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Category is not found!"));
         return Mapper.parseListObjects(repository.findAllByCategoryId(id), ProductVO.class);
     }
 
