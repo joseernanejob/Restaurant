@@ -35,6 +35,14 @@ feitos de forma rápida e precisa.
     "name": "Sobremesa"
 }
 ```
+- Return name already registered [400 BAD_REQUEST]
+```
+{
+    "timeStamp": "2024-01-30T15:51:15.895+00:00",
+    "message": "Category name already registered! ",
+    "details": "uri=/category"
+}
+```
 
 ### Put - /category
 
@@ -56,6 +64,24 @@ feitos de forma rápida e precisa.
 {
     "id": "1",
     "name": "Bebida"
+}
+```
+- 
+- Return Not Found [200 OK]
+```
+{
+    "timeStamp": "2024-01-30T15:57:23.940+00:00",
+    "message": "Category is not found!",
+    "details": "uri=/category"
+}
+```
+
+- Return name already registered [400 BAD_REQUEST]
+```
+{
+    "timeStamp": "2024-01-30T15:51:15.895+00:00",
+    "message": "Category name already registered! ",
+    "details": "uri=/category"
 }
 ```
 
