@@ -66,8 +66,7 @@ feitos de forma rápida e precisa.
     "name": "Bebida"
 }
 ```
-- 
-- Return Not Found [200 OK]
+- Return Not Found [404 NOT_FOUND]
 ```
 {
     "timeStamp": "2024-01-30T15:57:23.940+00:00",
@@ -109,10 +108,29 @@ feitos de forma rápida e precisa.
 }
 ```
 
+- Return Not Found [404 NOT_FOUND]
+```
+{
+    "timeStamp": "2024-01-30T15:57:23.940+00:00",
+    "message": "Category is not found!",
+    "details": "uri=/category"
+}
+```
+
 ### Delete - /category/{id}
 
 - Rota para apagar uma categoria especifica.
 - Return success [204 NO_CONTENT]
+
+
+- Return Not Found [404 NOT_FOUND]
+```
+{
+    "timeStamp": "2024-01-30T15:57:23.940+00:00",
+    "message": "Category is not found!",
+    "details": "uri=/category"
+}
+```
 
 
 ## Produtos
@@ -123,16 +141,13 @@ feitos de forma rápida e precisa.
 - Request Body:
     - **name**: string, máximo de 50 caracteres;
     - **description**: string;
-    - **category**: Category.
+    - **categoryId**: integer.
 
 ``` 
 {
     "name": "Refrigerante Generico",
     "description": "refrigerante de laranja",
-    "category": {
-        "id": 1,
-        "name": "Bebida"
-    }
+    "categoryId": 1,
 }
 ```
 
@@ -149,6 +164,15 @@ feitos de forma rápida e precisa.
 }
 ```
 
+- Return name already registered [400 BAD_REQUEST]
+```
+{
+    "timeStamp": "2024-01-30T15:51:15.895+00:00",
+    "message": "Product name already registered! ",
+    "details": "uri=/category"
+}
+```
+
 ### Put - /product
 
 - Rota para atualizar os dados de uma categoria.
@@ -156,17 +180,14 @@ feitos de forma rápida e precisa.
     - **id**: long;
     - **name**: string, máximo de 50 caracteres;
     - **description**: string;
-    - **category**: Category.
+    - **categoryId**: integer.
 
 ``` 
 {
     "id": 1,
     "name": "Refrigerante Generico",
     "description": "refrigerante de Uva",
-    "category": {
-        "id": 1,
-        "name": "Bebida"
-    }
+    "categoryId": 1
 }
 ```
 
@@ -180,6 +201,24 @@ feitos de forma rápida e precisa.
         "id": 1,
         "name": "Bebida"
     }
+}
+```
+
+- Return Not Found [404 NOT_FOUND]
+```
+{
+    "timeStamp": "2024-01-30T15:57:23.940+00:00",
+    "message": "Product is not found!",
+    "details": "uri=/category"
+}
+```
+
+- Return name already registered [400 BAD_REQUEST]
+```
+{
+    "timeStamp": "2024-01-30T15:51:15.895+00:00",
+    "message": "Product name already registered! ",
+    "details": "uri=/category"
 }
 ```
 
@@ -219,6 +258,15 @@ feitos de forma rápida e precisa.
 ]
 ```
 
+- Return Not Found [404 NOT_FOUND]
+```
+{
+    "timeStamp": "2024-01-30T15:57:23.940+00:00",
+    "message": "Category is not found!",
+    "details": "uri=/category"
+}
+```
+
 ### Get - /product/{id}
 
 - Rota para buscar um produto especifico.
@@ -235,11 +283,29 @@ feitos de forma rápida e precisa.
 }
 ```
 
+- Return Not Found [404 NOT_FOUND]
+```
+{
+    "timeStamp": "2024-01-30T15:57:23.940+00:00",
+    "message": "Product is not found!",
+    "details": "uri=/category"
+}
+```
+
 ### Delete - /produto/{id}
 
 - Rota para apagar um produto especifico.
 - Return success [204 NO_CONTENT]
 
+
+- Return Not Found [404 NOT_FOUND]
+```
+{
+    "timeStamp": "2024-01-30T15:57:23.940+00:00",
+    "message": "Produtc is not found!",
+    "details": "uri=/category"
+}
+```
 
 
 # PROJETO AINDA EM DESENVOLVIMENTO.
