@@ -56,7 +56,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
                 req.getDescription(false)
         );
 
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 
