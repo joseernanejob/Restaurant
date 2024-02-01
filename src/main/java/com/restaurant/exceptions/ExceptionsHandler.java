@@ -58,7 +58,7 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
- @ExceptionHandler(InvalidJwtAuthenticationException.class)
+    @ExceptionHandler(InvalidJwtAuthenticationException.class)
     public ResponseEntity<ExceptionResponse> handleInvalidJwtAuthenticationException(Exception ex, WebRequest req){
         ExceptionResponse response = new ExceptionResponse(
                 new Date(),
@@ -67,6 +67,17 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
         );
 
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(InvalidRoleException.class)
+    public ResponseEntity<ExceptionResponse> handleInvalidRoleException(Exception ex, WebRequest req){
+        ExceptionResponse response = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                req.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
 
