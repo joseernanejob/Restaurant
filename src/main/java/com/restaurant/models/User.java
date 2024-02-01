@@ -23,13 +23,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column
-    private String login;
+    @Column(length = 60, unique = true)
+    private String username;
 
     @Column
     private String fullName;
 
-    @Column
+    @Column(length = 100, unique = true)
     private String email;
 
     @Column
@@ -60,7 +60,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.login;
+        return this.username;
     }
 
 
