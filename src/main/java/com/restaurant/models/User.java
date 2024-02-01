@@ -47,6 +47,9 @@ public class User implements UserDetails {
     @Column
     private Permission role;
 
+    @Column
+    private Boolean enabled;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role == Permission.ADMIN)
@@ -78,6 +81,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.enabled;
     }
 }
