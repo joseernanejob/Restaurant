@@ -56,6 +56,8 @@ public class SecurityConfig {
                 .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/auth/register").hasRole("ADMIN")
+                        .requestMatchers("/auth/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/category/**", "/product/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/category", "/product").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/category", "/product").hasRole("ADMIN")
