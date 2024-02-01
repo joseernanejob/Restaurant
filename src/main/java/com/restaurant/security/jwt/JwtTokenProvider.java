@@ -45,20 +45,20 @@ public class JwtTokenProvider {
         algorithm = Algorithm.HMAC256(secretKey.getBytes());
     }
 
-    public TokenVO createAccessToken(String username, List<String> roles){
+    public TokenVO createAccessToken(String username, String role){
         Date now = new Date();
         Date validity =  new Date(now.getTime() + validityMilliseconds);
-        var accessToken = getAccessToken(username, roles, now, validity);
-        var refreshToken = getRefreshToken(username, roles, now);
+        var accessToken = getAccessToken(username, role, now, validity);
+        var refreshToken = getRefreshToken(username, role, now);
 
         return new TokenVO(username, true, now, validity, accessToken, refreshToken);
     }
 
-    private String getAccessToken(String username, List<String> roles, Date now, Date validity){
+    private String getAccessToken(String username, String role, Date now, Date validity){
         String issuerUrl = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
 
         return JWT.create()
-                .withClaim("roles", roles)
+                .withClaim("role", role)
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
                 .withSubject(username)
@@ -67,11 +67,11 @@ public class JwtTokenProvider {
                 .strip();
     }
 
-    private String getRefreshToken(String username, List<String> roles, Date now){
+    private String getRefreshToken(String username, String role, Date now){
         Date validityRefreshToken= new Date(now.getTime() + (validityMilliseconds * 3));
 
         return JWT.create()
-                .withClaim("roles", roles)
+                .withClaim("role", role)
                 .withIssuedAt(now)
                 .withExpiresAt(validityRefreshToken)
                 .withSubject(username)
@@ -82,7 +82,6 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token){
         DecodedJWT decodedJWT = decodedToken(token);
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(decodedJWT.getSubject());
-
         return new UsernamePasswordAuthenticationToken(
                 userDetails, "", userDetails.getAuthorities()
         );
