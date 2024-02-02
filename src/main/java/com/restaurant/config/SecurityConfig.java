@@ -32,6 +32,9 @@ public class SecurityConfig {
     private HandlerExceptionResolver resolver;
 
     @Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
+
+    @Autowired
     @Qualifier("delegatedAuthenticationEntryPoint")
     AuthenticationEntryPoint authenticationEntryPoint;
 
@@ -65,7 +68,10 @@ public class SecurityConfig {
 
                 )
                 .cors(cors -> {})
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(authenticationEntryPoint))
+                .exceptionHandling(ex -> {
+                    ex.authenticationEntryPoint(authenticationEntryPoint);
+                    ex.accessDeniedHandler(accessDeniedHandler);
+                })
                 .build();
     }
 
