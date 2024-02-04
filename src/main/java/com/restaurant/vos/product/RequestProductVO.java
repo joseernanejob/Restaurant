@@ -1,4 +1,4 @@
-package com.restaurant.vos;
+package com.restaurant.vos.product;
 
 
 import lombok.AllArgsConstructor;
@@ -10,9 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductVO {
+public class RequestProductVO {
     private Long id;
     private String name;
     private String description;
-    private CategoryVO category;
+    private Float price;
+    private Long categoryId;
 }

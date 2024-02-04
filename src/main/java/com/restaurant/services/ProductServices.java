@@ -8,8 +8,8 @@ import com.restaurant.models.Category;
 import com.restaurant.models.Product;
 import com.restaurant.repostories.CategoryRepository;
 import com.restaurant.repostories.ProductRepository;
-import com.restaurant.vos.RequestProductVO;
-import com.restaurant.vos.ProductVO;
+import com.restaurant.vos.product.RequestProductVO;
+import com.restaurant.vos.product.ProductVO;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 

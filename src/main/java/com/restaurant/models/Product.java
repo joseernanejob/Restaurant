@@ -1,7 +1,6 @@
 package com.restaurant.models;
 
-import com.restaurant.mappers.Mapper;
-import com.restaurant.vos.RequestProductVO;
+import com.restaurant.vos.product.RequestProductVO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +22,9 @@ public class Product {
 
     @Column(length = 500, nullable = false)
     private String description;
+
+    @Column(nullable = false)
+    private Float price;
 
     @ManyToOne()
     private Category category;

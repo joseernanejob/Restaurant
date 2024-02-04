@@ -1,8 +1,8 @@
 package com.restaurant.controllers;
 
 import com.restaurant.services.ProductServices;
-import com.restaurant.vos.RequestProductVO;
-import com.restaurant.vos.ProductVO;
+import com.restaurant.vos.product.RequestProductVO;
+import com.restaurant.vos.product.ProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
