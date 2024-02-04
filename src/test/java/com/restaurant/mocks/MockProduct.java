@@ -3,8 +3,8 @@ package com.restaurant.mocks;
 import com.restaurant.models.Category;
 import com.restaurant.models.Product;
 import com.restaurant.vos.CategoryVO;
-import com.restaurant.vos.RequestProductVO;
-import com.restaurant.vos.ProductVO;
+import com.restaurant.vos.product.RequestProductVO;
+import com.restaurant.vos.product.ProductVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +21,14 @@ public class MockProduct {
 
     public Product mockEntity(Integer number){
         Category category = new Category(
-                Long.valueOf(((number % 2) == 0)? 2 : 1),
+                (long) (((number % 2) == 0) ? 2 : 1),
                 ((number % 2) == 0) ? "Sobremesa" : "Bebida"
         );
         return new Product(
                 number.longValue(),
                 STR."Produto \{number}",
                 STR."Descrição produto \{number}",
+                100F,
                 category
         );
     }
@@ -51,6 +52,7 @@ public class MockProduct {
                 number.longValue(),
                 STR."Produto\{number}",
                 STR."Descrição produto \{number}",
+                100F,
                 category
         );
     }
@@ -65,6 +67,7 @@ public class MockProduct {
                 number.longValue(),
                 STR."Produto\{number}",
                 STR."Descrição produto \{number}",
+                100F,
                 category.getId()
         );
     }
